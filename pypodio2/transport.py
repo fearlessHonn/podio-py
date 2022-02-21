@@ -247,13 +247,13 @@ class HttpTransport(object):
     def get_url(self, url=None):
         if url is None:
             url = self._url_template % {
-                "domain": self._api_url,
-                "generated_url": self._stack_collapser(self._attribute_stack),
+                "domain": self._api_url.rstrip('/'),
+                "generated_url": self._stack_collapser(self._attribute_stack).lstrip('/'),
             }
         else:
             url = self._url_template % {
-                'domain': self._api_url,
-                'generated_url': url[1:]
+                'domain': self._api_url.rstrip('/'),
+                'generated_url': url.lstrip('/')
             }
             del self._params['url']
 
