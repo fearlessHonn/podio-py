@@ -82,3 +82,21 @@ def test_transport(mock_sleep):
 
     assert client.transport._http.request.call_count == 3
     assert mock_sleep.call_count == 2
+
+
+def test_get_url():
+    client, _ = get_client_and_http()
+    transport = client.transport
+    transport._params = MagicMock()
+
+    # Test get_url with URL coming from the _attribute_stack
+    transport._attribute_stack = ['/task/']
+    assert transport.get_url() == 'https://api.example.com/task/'
+    transport._attribute_stack = ['task']
+    assert transport.get_url() == 'https://api.example.com/task'
+
+    # Test get_url with URL passed as an argument
+    transport._attribute_stack = ['/random/']
+    assert transport.get_url('/task/') == 'https://api.example.com/task/'
+    transport._attribute_stack = ['random/']
+    assert transport.get_url('task') == 'https://api.example.com/task'
