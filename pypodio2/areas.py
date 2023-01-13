@@ -63,7 +63,7 @@ class Tag(Area):
         if type(attributes) != dict:
             return ApiErrorException('Must be of type dict')
         attributes = json.dumps(attributes)
-        return self.transport.POST(url=f'/embed/{ref_type}/{ref_id}/', body=attributes, type='application/json')
+        return self.transport.POST(url=f'/tag/{ref_type}/{ref_id}/', body=attributes, type='application/json')
         
 
 
