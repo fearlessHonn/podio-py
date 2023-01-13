@@ -60,7 +60,7 @@ class Tag(Area):
         super(Tag, self).__init__(*args, **kwargs)
 
     def create(self, ref_type, ref_id, attributes):
-        if type(attributes) != dict:
+        if type(attributes) != list:
             return ApiErrorException('Must be of type dict')
         attributes = json.dumps(attributes)
         return self.transport.POST(url=f'/tag/{ref_type}/{ref_id}/', body=attributes, type='application/json')
