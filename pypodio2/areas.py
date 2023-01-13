@@ -53,6 +53,18 @@ class Embed(Area):
             return ApiErrorException('Must be of type dict')
         attributes = json.dumps(attributes)
         return self.transport.POST(url='/embed/', body=attributes, type='application/json')
+    
+class Tag(Area):
+    
+    def __init__(self, *args, **kwargs):
+        super(Tag, self).__init__(*args, **kwargs)
+
+    def create(self, ref_type, ref_id, attributes):
+        if type(attributes) != dict:
+            return ApiErrorException('Must be of type dict')
+        attributes = json.dumps(attributes)
+        return self.transport.POST(url=f'/embed/{ref_type}/{ref_id}/', body=attributes, type='application/json')
+        
 
 
 class Contact(Area):
