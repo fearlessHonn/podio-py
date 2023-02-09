@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from typing import overload
 
 try:
     from urllib.parse import urlencode
@@ -53,9 +54,10 @@ class Embed(Area):
             return ApiErrorException('Must be of type dict')
         attributes = json.dumps(attributes)
         return self.transport.POST(url='/embed/', body=attributes, type='application/json')
-    
+
+
 class Tag(Area):
-    
+
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
 
@@ -64,7 +66,6 @@ class Tag(Area):
             return ApiErrorException('Must be of type dict')
         attributes = json.dumps(attributes)
         return self.transport.POST(url=f'/tag/{ref_type}/{ref_id}/', body=attributes, type='application/json')
-        
 
 
 class Contact(Area):
@@ -179,11 +180,16 @@ class Item(Area):
                                   url='/item/%d%s' % (item_id, self.get_options(silent=silent,
                                                                                 hook=hook)))
 
+    """@overload
     def delete(self, item_id, silent=False, hook=True):
         return self.transport.DELETE(url='/item/%d%s' % (item_id,
                                                          self.get_options(silent=silent,
                                                                           hook=hook)),
-                                     handler=lambda x, y: None)
+                                     handler=lambda x, y: None)"""
+
+    def delete(self, app_id, attributes: dict):
+        return self.transport.POST(body=json.dumps(attributes), type='application/json',
+                                   url=f'/item/app/{app_id}/delete')
 
 
 class Application(Area):
